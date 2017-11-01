@@ -1,0 +1,237 @@
+package com.summit.system.user.web;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import net.sf.json.JSONObject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.summit.frame.util.Page;
+import com.summit.frame.util.SummitTools;
+import com.summit.frame.util.SysConstants;
+import com.summit.frame.util.LogUtil.bean.LogBean;
+import com.summit.frame.util.LogUtil.service.ILogUtil;
+import com.summit.system.user.bean.UserBean;
+import com.summit.system.user.service.UserService;
+
+/**
+ * 
+ * ClassName: DemoController
+ * 
+ * @Description: TODO
+ * @author 张展弋
+ * @date 2016-12-28 上午10:30:47
+ */
+@Controller
+@RequestMapping("user")
+public class UserController {
+
+	@Autowired
+	private UserService us;
+
+	@Autowired
+	private SummitTools st;
+	@Autowired
+	ILogUtil logUtil;
+
+	@RequestMapping("add")
+	@ResponseBody
+	public Map<String, Object> add(UserBean userBean, HttpServletRequest request) {
+		Map<String, Object> res = new HashMap<String, Object>();
+		LogBean logBean = new LogBean();
+		try {
+			logBean = logUtil.insertLog(request,"1", "用户新增");
+			res = us.add(userBean);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logBean.setActionFlag("0");
+			logBean.setErroInfo(e.toString());
+		}
+		logUtil.updateLog(logBean,"1");
+		return res;
+	}
+
+	@RequestMapping("del")
+	@ResponseBody
+	public Map<String, Object> del(String userNames, HttpServletRequest request) {
+		Map<String, Object> res = new HashMap<String, Object>();
+		LogBean logBean = new LogBean();
+		try {
+			logBean = logUtil.insertLog(request,"1", "删除用户");
+			res = us.del(userNames);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logBean.setActionFlag("0");
+			logBean.setErroInfo(e.toString());
+		}
+		logUtil.updateLog(logBean,"1");
+		return res;
+	}
+
+	@RequestMapping("edit")
+	@ResponseBody
+	public Map<String, Object> edit(UserBean userBean, HttpServletRequest request) {
+		Map<String, Object> res = new HashMap<String, Object>();
+		LogBean logBean = new LogBean();
+		try {
+			logBean = logUtil.insertLog(request,"1", "修改用户");
+			if (st.stringEquals(SysConstants.SUPER_USERNAME, userBean
+					.getUsername())) {
+				res = st.success("", new ArrayList<Object>());
+			}else{
+				res = us.edit(userBean);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logBean.setActionFlag("0");
+			logBean.setErroInfo(e.toString());
+		}
+		logUtil.updateLog(logBean,"1");
+		return res;
+	}
+
+	@RequestMapping("editPassword")
+	@ResponseBody
+	public Map<String, Object> editPassword(String oldPassword,
+			String password, String repeatPassword, HttpServletRequest request) {
+		Map<String, Object> res = new HashMap<String, Object>();
+		LogBean logBean = new LogBean();
+		try {
+			logBean = logUtil.insertLog(request,"1", "修改密码");
+			if (st.stringIsNull(oldPassword)) {
+				res = st.error("，请输入旧密码");
+			}else if (st.stringIsNull(password)) {
+				res = st.error("，请输入新密码");
+			}else if (st.stringIsNull(repeatPassword)) {
+				res = st.error("，请输入确认密码");
+			}else if (!st.stringEquals(password, repeatPassword)) {
+				res = st.error("，两次输入的密码不一致");
+			}else{
+				res = us.editPassword(oldPassword, password, repeatPassword);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logBean.setActionFlag("0");
+			logBean.setErroInfo(e.toString());
+		}
+		logUtil.updateLog(logBean,"1");
+		return res;
+	}
+
+	@RequestMapping("queryByUserName")
+	@ResponseBody
+	public Map<String, Object> queryByUserName(String userName, HttpServletRequest request) {
+		Map<String, Object> res = new HashMap<String, Object>();
+		LogBean logBean = new LogBean();
+		try {
+			logBean = logUtil.insertLog(request,"1", "用户管理根据用户名查询用户");
+			if (st.stringEquals(SysConstants.SUPER_USERNAME, userName)) {
+				return st.success("");
+			}
+			UserBean ub = us.queryByUserName(userName);
+			if (ub == null) {
+				return st.error("");
+			}
+			ub.setPassword(null);
+			ub.setState(null);
+			ub.setLastUpdateTime(null);
+			res = st.success("", ub);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logBean.setActionFlag("0");
+			logBean.setErroInfo(e.toString());
+		}
+		logUtil.updateLog(logBean,"1");
+		return res;
+	}
+
+	@RequestMapping("queryByPage")
+	@ResponseBody
+	public Page<JSONObject> queryByPage(Integer start, Integer limit,
+			UserBean userBean, HttpServletRequest request) {
+		Page<JSONObject> res = new Page<JSONObject>();
+		LogBean logBean = new LogBean();
+		try {
+			logBean = logUtil.insertLog(request,"1", "用户管理分页查询");
+			start = (start == null) ? 1 : start;
+			limit = (limit == null) ? SysConstants.PAGE_SIZE : limit;
+			res = us.queryByPage(start, limit, userBean);
+		} catch (Exception e) {
+			e.printStackTrace();
+			logBean.setActionFlag("0");
+			logBean.setErroInfo(e.toString());
+		}
+		logUtil.updateLog(logBean,"1");
+		return res;
+	}
+
+	@RequestMapping("resetPassword")
+	@ResponseBody
+	public Map<String, Object> resetPassword(String userName, HttpServletRequest request) {
+		Map<String, Object> res = new HashMap<String, Object>();
+		LogBean logBean = new LogBean();
+		try {
+			logBean = logUtil.insertLog(request,"1", "用户管理重置密码");
+			if (st.stringEquals(SysConstants.SUPER_USERNAME, userName)) {
+				res = st.success("");
+			}else{
+				res =  us.resetPassword(userName);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logBean.setActionFlag("0");
+			logBean.setErroInfo(e.toString());
+		}
+		logUtil.updateLog(logBean,"1");
+		return res;
+	}
+
+	@RequestMapping("queryRoleByUserName")
+	@ResponseBody
+	public Map<String, Object> queryRoleByUserName(String userName, HttpServletRequest request) {
+		Map<String, Object> res = new HashMap<String, Object>();
+		LogBean logBean = new LogBean();
+		try {
+			logBean = logUtil.insertLog(request,"1", "用户管理查询用户角色");
+			if (st.stringEquals(SysConstants.SUPER_USERNAME, userName)) {
+				res = st.success("", new ArrayList<Object>());
+			}else{
+				res = st.success("", us.queryRoleByUserName(userName));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logBean.setActionFlag("0");
+			logBean.setErroInfo(e.toString());
+		}
+		logUtil.updateLog(logBean,"1");
+		return res;
+	}
+
+	@RequestMapping("grantRole")
+	@ResponseBody
+	public Map<String, Object> grantRole(String userName, String role, HttpServletRequest request) {
+		Map<String, Object> res = new HashMap<String, Object>();
+		LogBean logBean = new LogBean();
+		try {
+			logBean = logUtil.insertLog(request,"1", "用户管理授权");
+			if (st.stringEquals(SysConstants.SUPER_USERNAME, userName)) {
+				res = st.success("");
+			}else{
+				res = us.grantRole(userName, role);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			logBean.setActionFlag("0");
+			logBean.setErroInfo(e.toString());
+		}
+		logUtil.updateLog(logBean,"1");
+		return res;
+	}
+}

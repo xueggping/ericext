@@ -1,0 +1,59 @@
+package com.summit.watfh.yearbook.web;
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+
+
+@Controller
+@RequestMapping("yearbook")
+public class YearbookController {
+	
+	@RequestMapping("welcome")  
+    public ModelAndView getFirstPage(HttpServletRequest request,String templateName) {  
+        //welcom就是视图的名称（welcom.ftl）  
+        ModelAndView mv = new ModelAndView(templateName);  
+        int[][] name = new int[31][12];
+        for(int i = 0; i < 31; i++){
+        	for (int j = 0; j < 12; j++) {
+        		name[i][j] = i+j;
+			}
+        }
+        mv.addObject("name", name);  
+        return mv;  
+    }  
+	
+	@RequestMapping("yearReport")
+	public static ModelAndView yearReport(String paramJSON){
+		
+		List<String[]> list = new ArrayList();
+		ModelAndView view = new ModelAndView("");
+		for(int i=0;i<12;i++){
+			String[] dt = new String[31];
+			for(int j=0;j<31;j++){
+				dt[j]=(i+1)*(j+1)+"";
+			}
+			list.add(dt);
+		}
+		view.addObject(list);
+		
+		
+		for(int w=0;w<31;w++){
+			for(int i=0;i<list.size();i++){
+				String[] aa = list.get(i);
+				System.out.print(" "+aa[w]+" ");
+			}
+			System.out.println("");
+		}
+		
+		return view;
+	}
+}

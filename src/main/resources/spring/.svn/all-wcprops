@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 80
+/svn/WaterRoot/!svn/ver/102803/XJWATF/code/trunk/watfh/src/main/resources/spring
+END
+applicationContext.xml
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svn/WaterRoot/!svn/ver/102243/XJWATF/code/trunk/watfh/src/main/resources/spring/applicationContext.xml
+END
+applicationContext-security.xml
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/WaterRoot/!svn/ver/102803/XJWATF/code/trunk/watfh/src/main/resources/spring/applicationContext-security.xml
+END

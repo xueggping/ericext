@@ -1,0 +1,137 @@
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svn/WaterRoot/!svn/ver/104158/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service
+END
+YearbookWaterTempReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/WaterRoot/!svn/ver/104068/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookWaterTempReport.java
+END
+YearbookWaterLevelReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svn/WaterRoot/!svn/ver/102825/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookWaterLevelReport.java
+END
+YearbookFlowQuantity.java
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/WaterRoot/!svn/ver/102859/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookFlowQuantity.java
+END
+YearbookIceAdditionReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/WaterRoot/!svn/ver/104068/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookIceAdditionReport.java
+END
+YearbookWaterTempReportYM.java
+K 25
+svn:wc:ra_dav:version-url
+V 133
+/svn/WaterRoot/!svn/ver/104068/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookWaterTempReportYM.java
+END
+YearbookBigSectionReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svn/WaterRoot/!svn/ver/102859/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookBigSectionReport.java
+END
+YearbookDayRainReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/WaterRoot/!svn/ver/102825/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookDayRainReport.java
+END
+YearbookAbstractService.java
+K 25
+svn:wc:ra_dav:version-url
+V 131
+/svn/WaterRoot/!svn/ver/104072/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookAbstractService.java
+END
+AvgIceFlowReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/WaterRoot/!svn/ver/104068/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/AvgIceFlowReport.java
+END
+YearbookAbstractServiceInter.java
+K 25
+svn:wc:ra_dav:version-url
+V 136
+/svn/WaterRoot/!svn/ver/102762/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookAbstractServiceInter.java
+END
+SandInRateReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 124
+/svn/WaterRoot/!svn/ver/104068/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/SandInRateReport.java
+END
+YearbookVaporizeReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 130
+/svn/WaterRoot/!svn/ver/102891/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookVaporizeReport.java
+END
+RealSandInRateReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 128
+/svn/WaterRoot/!svn/ver/102859/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/RealSandInRateReport.java
+END
+YearbookIceReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/WaterRoot/!svn/ver/104068/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookIceReport.java
+END
+RealIceFlowReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 125
+/svn/WaterRoot/!svn/ver/104131/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/RealIceFlowReport.java
+END
+SandInRateReportYM.java
+K 25
+svn:wc:ra_dav:version-url
+V 126
+/svn/WaterRoot/!svn/ver/104068/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/SandInRateReportYM.java
+END
+YearbookAvgTempReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 129
+/svn/WaterRoot/!svn/ver/102825/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookAvgTempReport.java
+END
+YearbookVaporAdditionReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 135
+/svn/WaterRoot/!svn/ver/104068/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookVaporAdditionReport.java
+END
+YearbookFloodReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 127
+/svn/WaterRoot/!svn/ver/104068/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookFloodReport.java
+END
+YearbookAvgFlowQuantityReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 137
+/svn/WaterRoot/!svn/ver/104152/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookAvgFlowQuantityReport.java
+END
+SandRateReport.java
+K 25
+svn:wc:ra_dav:version-url
+V 122
+/svn/WaterRoot/!svn/ver/104068/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/SandRateReport.java
+END
+YearbookVaporizeReportYM.java
+K 25
+svn:wc:ra_dav:version-url
+V 132
+/svn/WaterRoot/!svn/ver/102891/XJWATF/code/trunk/watfh/src/main/java/com/summit/watfh/yearbook/service/YearbookVaporizeReportYM.java
+END

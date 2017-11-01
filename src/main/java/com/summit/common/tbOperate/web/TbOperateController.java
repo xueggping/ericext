@@ -1,0 +1,300 @@
+/**
+ * 
+ */
+package com.summit.common.tbOperate.web;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.summit.common.tbOperate.service.TbCommonInter;
+import com.summit.frame.util.Page;
+import com.summit.frame.util.SummitTools;
+import com.summit.system.function.bean.FunctionBean;
+import com.summit.system.function.service.FunctionService;
+
+import net.sf.json.JSONNull;
+import net.sf.json.JSONObject;
+
+/**
+ * 表操作公共类
+ * 
+ * @author Zhangzhao
+ *
+ */
+@Controller
+@RequestMapping("tbOperate")
+public class TbOperateController {
+	
+	@Autowired
+	private TbCommonInter tbCommonImpl;
+	@Autowired
+	SummitTools stool;
+	@Autowired
+	private FunctionService functionService;
+	
+	/**
+	 * 新增表数据
+	 * @param tableName
+	 * @param parameterJSON
+	 * @return
+	 */
+	@RequestMapping("addData")
+	@ResponseBody
+	public Map<String,Object> addData(String tableName,String parameterJSON){
+		try {
+			tbCommonImpl.addTableData(tableName, parameterJSON);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return stool.error(e.getMessage());
+		}
+		return stool.success("新增表数据成功");
+	}
+	
+	/**
+	 * 修改表数据
+	 * @param tableName
+	 * @param parameterJSON
+	 * @return
+	 */
+	@RequestMapping("editData")
+	@ResponseBody
+	public Map<String,Object> editData(String tableName,String parameterJSON){
+		try {
+			tbCommonImpl.editTableData(tableName, parameterJSON);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return stool.error(e.getMessage());
+		}
+		return stool.success("修改表数据成功");
+	}
+	
+	/**
+	 * 删除表数据
+	 * @param tableName
+	 * @param parameterJSON
+	 * @return
+	 */
+	@RequestMapping("delData")
+	@ResponseBody
+	public Map<String,Object> delData(String tableName,String parameterJSON){
+		try {
+			tbCommonImpl.deleteTableData(tableName, parameterJSON);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return stool.error(e.getMessage());
+		}
+		return stool.success("删除表数据成功");
+	}
+	
+	/**
+	 * 根据sql语句分页查询数据
+	 * @param sql
+	 * @param parameterJSON
+	 * @param start
+	 * @param limit
+	 * @return
+	 */
+	@RequestMapping("queryPageDataBySQL")
+	@ResponseBody
+	public Page<JSONObject> queryPageDataBySQL(String functionId,String parameterJSON,int start,int limit){
+		FunctionBean fn = (FunctionBean) functionService.queryById(functionId).get("data");
+		return tbCommonImpl.queryPageDatasBySQL(fn.getExecuteSql(), parameterJSON, start, limit);
+	}
+	
+	/**
+	 * 根据sql语句查询数据
+	 * @param sql
+	 * @param parameterJSON
+	 * @return
+	 */
+	@RequestMapping("queryDataBySQL")
+	@ResponseBody
+	public List<JSONObject> queryDataBySQL(String functionId,String parameterJSON){
+		try {
+			FunctionBean fn = (FunctionBean) functionService.queryById(functionId).get("data");
+			return tbCommonImpl.queryDatasBySQL(fn.getExecuteSql(), parameterJSON);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 根据sql语句查询数据
+	 * @param sql
+	 * @param parameterJSON
+	 * @return
+	 */
+	@RequestMapping("queryPicDataBySQL")
+	@ResponseBody
+	public List<JSONObject> queryPicDataBySQL(String functionId,String parameterJSON,String tableName){
+		try {
+			FunctionBean fn = (FunctionBean) functionService.queryById(functionId).get("data");
+			return tbCommonImpl.queryPicDatasBySQL(fn.getExecuteSql(), parameterJSON, tableName);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 根据表名分页查询数据
+	 * @param tableName 表名
+	 * @param parameterJSON 查询条件
+	 * @param start
+	 * @param limit
+	 * @return
+	 */
+	@RequestMapping("queryPageDataByTbName")
+	@ResponseBody
+	public Page<JSONObject> queryPageDataByTbName(String tableName,String parameterJSON,int start,int limit){
+		try {
+			return tbCommonImpl.queryPageDatasByTbName(tableName, parameterJSON, start, limit);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 根据表名查询数据
+	 * @param tableName
+	 * @param parameterJSON
+	 * @return
+	 */
+	@RequestMapping("queryDataByTbName")
+	@ResponseBody
+	public List<JSONObject> queryDataByTbName(String tableName,String parameterJSON){
+		try {
+			return tbCommonImpl.queryDatasByTbName(tableName, parameterJSON);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 图表专用
+	 * @param tableName 表名
+	 * @param parameter 查询参数JSON字符串
+	 * @param columns 查询列表（以，分割）
+	 * @return
+	 */
+	@RequestMapping("queryPicData")
+	@ResponseBody												  
+	public List<JSONObject> queryPicData(String tableName,String parameterJSON,String columns){
+		List<JSONObject> picList = new ArrayList<JSONObject>();
+		Map<String,List<JSONObject>> map = new HashMap<String,List<JSONObject>>();
+		List<JSONObject> list = tbCommonImpl.queryPicData(tableName,parameterJSON,columns);
+		for(JSONObject json:list)
+		{
+			String stcd = json.getString("STCD");
+			if(map.containsKey(stcd))
+			{
+				List lst = map.get(stcd);
+				json.remove("STCD");
+				lst.add(json);
+			}
+			else
+			{
+				List lt = new ArrayList<JSONObject>();
+				json.remove("STCD");
+				lt.add(json);
+				map.put(stcd, lt);
+			}
+			
+		}
+		
+		for(Entry<String, List<JSONObject>> entry : map.entrySet())
+		{
+			JSONObject obj = new JSONObject();
+			obj.put(entry.getKey(),map.get(entry.getKey()));
+			picList.add(obj);
+		}
+		return picList;
+	}
+	
+	@RequestMapping("test123")
+	@ResponseBody
+	public Page<JSONObject> test123(HttpServletRequest request) {
+		try {
+			String params = request.getParameter("dataJson");
+			addData("TEST_REGSITER", params);
+			
+			List<JSONObject> list = tbCommonImpl.queryColumnsProperties("SYS_USER1");
+			List<JSONObject> proList = tbCommonImpl.queryKeys("SYS_USER");
+			
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			
+			JSONObject obj = new JSONObject();
+		obj.put("USERNAME", "AAA");
+//		obj.put("NAME", "AAA");
+//		obj.put("PASSWORD", "AAA");
+//		obj.put("IS_ENABLED", 1);
+//		obj.put("STATE", 1);
+//		obj.put("LAST_UPDATE_TIME",df.format(new Date()));
+//		obj.put("AA",df1.format(new Date()));
+		obj.put("PHONE_NUMBER", null);
+		
+		JSONObject obj1 = JSONObject.fromObject("{'USERNAME_EQ':'AAAw','PHONE_NUMBER_EQ':'13657864563'}");
+		
+//		tbCommonImpl.addTableData("SYS_USER", obj.toString());
+		
+//		int i = tbCommonImpl.editTableData("SYS_USER", obj1.toString());
+		
+//		int j = tbCommonImpl.deleteTableData("SYS_USER", obj1.toString());
+		
+		Page<JSONObject> page = tbCommonImpl.queryPageDatasByTbName("SYS_USER", obj1.toString(), 1, 10);
+		List<JSONObject> lis = tbCommonImpl.queryDatasByTbName("SYS_USER", obj1.toString());
+		
+		String sql = "select * from SYS_USER where name='AAA' ";
+		Page<JSONObject> page1 = tbCommonImpl.queryPageDatasBySQL(sql, obj1.toString(), 1, 10);
+		List<JSONObject> ls = tbCommonImpl.queryDatasBySQL(sql, obj1.toString());
+		String columns = "AVZ y,DT x,STCD";
+		String paramer = "{'STCD_IN':'00100100'}";
+		this.queryPicData("HY_DZ_C", paramer, columns);
+	System.out.println(123);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;	
+	}
+
+	public static void main(String[] args){
+		JSONObject obj = new JSONObject();
+//		obj.put("USERNAME", "AAAw123");
+//		obj.put("NAME", "AAA");
+//		obj.put("PASSWORD", "AAA");
+//		obj.put("IS_ENABLED", 1);
+//		obj.put("STATE", 1);
+//		obj.put("LAST_UPDATE_TIME",df.format(new Date()));
+//		obj.put("AA",df1.format(new Date()));
+		obj.put("PHONE_NUMBER", null);
+		String par = obj.toString();
+		JSONObject b = JSONObject.fromObject("{PHONE_NUMBER:null}");
+		Object o = b.get("PHONE_NUMBER");
+		System.out.println("bbbbbbbbbbbbbbbbbb:"+b.containsKey("PHONE_NUMBER"));
+	System.out.println("aaaaaaaaaaaaaaaaaaaaaaa:"+o);
+		if(o instanceof JSONNull){
+			
+			System.out.println("---------------------"+o);
+		}
+	}
+	
+}

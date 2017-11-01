@@ -1,0 +1,317 @@
+package com.summit.watfh.yearbook.web;
+
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.summit.watfh.yearbook.bean.Yearbook;
+import com.summit.watfh.yearbook.service.YearbookAbstractServiceInter;
+import com.summit.watfh.yearbook.service.YearbookServiceInter;
+
+
+
+@Controller
+@RequestMapping("yearbook")
+public class YearbookController {
+	
+	@Autowired
+	private YearbookServiceInter yearbookServiceImpl;
+	
+	@Autowired
+	private YearbookAbstractServiceInter yearbookFloodReport;
+	
+	@Autowired
+	private YearbookAbstractServiceInter yearbookVaporAdditionReport;
+	@Autowired
+	private YearbookAbstractServiceInter yearbookWaterTempReport;
+	@Autowired
+	private YearbookAbstractServiceInter yearbookWaterTempReportYM;
+	@Autowired
+	private YearbookAbstractServiceInter yearbookDayRainService;
+	@Autowired
+	private YearbookAbstractServiceInter yearbookIceAdditionReport; 
+	@Autowired 
+	private YearbookAbstractServiceInter sandRateReport;
+	@Autowired 
+	private YearbookAbstractServiceInter sandInRateReport;
+	@Autowired 
+	private YearbookAbstractServiceInter sandInRateReportYM;
+	
+	@Autowired 
+	private YearbookAbstractServiceInter yearbookAvgTempReport;
+	@Autowired
+	private YearbookAbstractServiceInter yearbookIceReport;
+	@Autowired
+	private YearbookAbstractServiceInter  avgIceFlowReport;
+	
+	@Autowired
+	private YearbookAbstractServiceInter yearbookVaporizeReport;
+	@Autowired
+	private YearbookAbstractServiceInter yearbookVaporizeReportYM;
+	
+	@RequestMapping("welcome")  
+    public ModelAndView getFirstPage(Yearbook yearbook) {  
+        return yearbookServiceImpl.getFirstPage(yearbook);
+    }
+	
+	/**
+	 * 洪水水文要素摘录表
+	 * @param yearbook
+	 * @return
+	 */
+	@RequestMapping("floodReport")  
+    public ModelAndView floodReport(Yearbook yearbook) {  
+        return yearbookFloodReport.getPage(yearbook);  
+    }
+	/**
+	 * 逐日平均冰流量
+	 * @param yearbook
+	 * @return
+	 */
+	@RequestMapping("avgIceFlowReport")  
+    public ModelAndView avgIceFlowReport(Yearbook yearbook) {  
+        return avgIceFlowReport.getPage(yearbook);  
+    }
+	/**
+	 * 逐日水温
+	 * （日月）
+	 * @param yearbook
+	 * @return
+	 */
+	@RequestMapping("waterTempReport")  
+    public ModelAndView waterTempReport(Yearbook yearbook) {  
+        return yearbookWaterTempReport.getPage(yearbook);  
+    }
+	/**
+	 * 逐日水温
+	 * （月年）
+	 * @param yearbook
+	 * @return
+	 */
+	@RequestMapping("waterTempReportYM")  
+    public ModelAndView waterTempReportYM(Yearbook yearbook) {  
+        return yearbookWaterTempReportYM.getPage(yearbook);  
+    }
+	/**
+	 * 逐日平均含沙量
+	 * @param yearbook
+	 * @return
+	 */
+	@RequestMapping("sandRateReport")  
+    public ModelAndView sandRateReport(Yearbook yearbook) {  
+        return sandRateReport.getPage(yearbook);  
+    }
+	/**
+	 * 逐日平均悬移质输沙率
+	 * （日月）
+	 * @param yearbook
+	 * @return
+	 */
+	@RequestMapping("sandInRateReport")  
+    public ModelAndView sandInRateReport(Yearbook yearbook) {  
+        return sandInRateReport.getPage(yearbook);  
+    }
+	/**
+	 * 逐日平均悬移质输沙率
+	 * （月年）
+	 * @param yearbook
+	 * @return
+	 */
+	@RequestMapping("sandInRateReportYM")  
+    public ModelAndView sandInRateReportYM(Yearbook yearbook) {  
+        return sandInRateReportYM.getPage(yearbook);  
+    }
+	
+	/**
+	 * 水面蒸发量辅助项统计年报
+	 * @param yearbook
+	 * @return
+	 */
+	@RequestMapping("vaporAdditionReport")  
+    public ModelAndView vaporAdditionReport(Yearbook yearbook) {  
+        return yearbookVaporAdditionReport.getPage(yearbook);  
+    }
+	
+	
+	@RequestMapping("waterLevelReport")
+	public ModelAndView waterLevelReport(String stcds,String beginYear,String endYear,String type){
+		type = "1";
+		ModelAndView view = new ModelAndView("yearbook/WaterLevelReport");
+		List<Map<String,Object>> waterLevelList = null;
+		try {
+			waterLevelList = yearbookServiceImpl.waterLevelReport(stcds,beginYear,endYear,type);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		view.addObject("waterLevelList",waterLevelList);
+		return view;
+	}
+	
+	@RequestMapping("avgFlowReport")
+	public ModelAndView avgFlowReport(String stcds,String beginYear,String endYear,String type){
+		type = "1";
+		ModelAndView view = new ModelAndView("yearbook/AvgFlowQuantityReport");
+		List<Map<String,Object>> avgFlowList = null;
+		try {
+			avgFlowList = yearbookServiceImpl.avgFlowReport(stcds,beginYear,endYear,type);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		view.addObject("avgFlowList",avgFlowList);
+		return view;
+	}
+	
+	/**
+	 * 逐日降水量
+	 * @param yearbook
+	 * @return
+	 */
+	@RequestMapping("dayRainReport")  
+    public ModelAndView dayRainReport(Yearbook yearbook) {
+		String stcds="00100100,00100300";
+		String beginYear = "2007";
+		String endYear = "2017";
+		
+		yearbook.setStcds(stcds);
+		yearbook.setStartTime(beginYear);
+		yearbook.setEndTime(endYear);
+		yearbook.setBookType(1);
+		
+        return yearbookDayRainService.getPage(yearbook);  
+    }
+	
+	/**
+	 * 冰厚及冰情要素摘录
+	 * @param yearbook
+	 * @return
+	 */
+	@RequestMapping("iceAdditionReport") 
+	public ModelAndView iceAdditionReport(Yearbook yearbook) {  
+	       return yearbookIceAdditionReport.getPage(yearbook);  
+    }
+	
+	/**
+	 * 逐日平均气温
+	 * @param yearbook
+	 * @return
+	 */
+	@RequestMapping("avgTempReport")
+	public ModelAndView avgTempReport(Yearbook yearbook){
+		String stcds="00100100,00100300";
+		String beginYear = "2007";
+		String endYear = "2017";
+		
+		yearbook.setStcds(stcds);
+		yearbook.setStartTime(beginYear);
+		yearbook.setEndTime(endYear);
+		yearbook.setBookType(1);
+		return yearbookAvgTempReport.getPage(yearbook);
+	}
+	
+	/**
+	 * 冰清统计
+	 * @param yearbook
+	 * @return
+	 */
+	@RequestMapping("iceReport")
+	public ModelAndView iceReport(Yearbook yearbook){
+		return yearbookIceReport.getPage(yearbook);
+	}
+<<<<<<< .mine
+	
+	
+	@RequestMapping("export") 
+    @ResponseBody
+    public Map<String, Object> export(Yearbook yearbook,String template,String saveFileName,Integer fileType,Integer part){
+		System.out.println("export=======================================================================");
+		Map<String, Object> map = new HashMap<String, Object>();
+		switch (part) {
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 6:
+			break;
+		case 7:
+			break;
+		case 8:
+			break;
+		case 9:
+			break;
+		case 0:
+			break;
+		case 11:
+			break;
+		case 12:
+			break;
+		case 13:
+			break;
+		case 14:
+			map = yearbookFloodReport.export(yearbook, template, saveFileName, fileType);
+			break;
+		case 15:
+			break;
+		case 16:
+			break;
+		case 17:
+			break;
+		default:
+			break;
+		}
+		
+		return map;
+    }
+	
+=======
+	
+	/**
+	 * 水面蒸发量（年月日）
+	 * @param yearbook
+	 * @return
+	 */
+	@RequestMapping("vaporizeReport")
+	public ModelAndView vaporizeReport(Yearbook yearbook){
+		String stcds="00100100";
+		String beginYear = "2007";
+		String endYear = "2017";
+		
+		yearbook.setStcds(stcds);
+		yearbook.setStartTime(beginYear);
+		yearbook.setEndTime(endYear);
+		yearbook.setBookType(1);
+		return yearbookVaporizeReport.getPage(yearbook);
+	}
+	
+	/**
+	 * 水面蒸发量（年月）
+	 * @param yearbook
+	 * @return
+	 */
+	@RequestMapping("vaporizeReportYM")
+	public ModelAndView vaporizeReportYM(Yearbook yearbook){
+		String stcds="00100100";
+		String beginYear = "2007";
+		String endYear = "2017";
+		
+		yearbook.setStcds(stcds);
+		yearbook.setStartTime(beginYear);
+		yearbook.setEndTime(endYear);
+		yearbook.setBookType(1);
+		return yearbookVaporizeReportYM.getPage(yearbook);
+	}
+>>>>>>> .r102707
+}

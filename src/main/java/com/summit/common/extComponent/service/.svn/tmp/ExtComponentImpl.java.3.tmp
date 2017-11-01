@@ -1,0 +1,152 @@
+package com.summit.common.extComponent.service;
+
+import java.util.List;
+import java.util.Map;
+
+import net.sf.json.JSONObject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.summit.common.extComponent.bean.ExtComponent;
+import com.summit.common.extComponent.bean.ExtComponentRowMapper;
+import com.summit.frame.repository.jdbc.UserRepository;
+import com.summit.frame.security.context.UserContext;
+import com.summit.frame.util.Page;
+import com.summit.frame.util.SummitTools;
+import com.summit.frame.util.SysConstants;
+import com.summit.system.function.bean.FunctionBeanRowMapper;
+
+@Service
+@Transactional
+public class ExtComponentImpl implements ExtComponentInter{
+
+	@Autowired
+	private UserRepository ur;
+	
+	@Autowired
+	private SummitTools st;
+	
+	@Autowired
+	private ExtComponentRowMapper extComponentRowMapper;
+	
+	public Map<String, Object> add(ExtComponent extComponent) {
+		String id = SummitTools.getKey();
+		if(extComponent.getId() != null){
+			id = extComponent.getId();
+		}
+		String  sql = "INSERT INTO WF_COMPONENT (id, pageId, xtype, width, height, margin, labelWidth, " +
+				" actionName, maxLength, fieldLabel, allowBlank, regex, regexText, maxLengthText, " +
+				" otherProperty, extendComponent, ordered,hidden,text,dataIndex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
+		ur.jdbcTemplate.update(sql,id,
+				extComponent.getPageId(),
+				extComponent.getXtype(),
+				extComponent.getWidth(),
+				extComponent.getHeight(),
+				extComponent.getMargin(),
+				extComponent.getLabelWidth(),
+				extComponent.getActionName(),
+				extComponent.getMaxLength(),
+				extComponent.getFieldLabel(),
+				extComponent.getAllowBlank(),
+				extComponent.getRegex(),
+				extComponent.getRegexText(),
+				extComponent.getMaxLength(),
+				extComponent.getOtherProperty(),
+				extComponent.getExtendComponent(),
+				extComponent.getOrdered(),
+				extComponent.getHidden(),
+				extComponent.getText(),
+				extComponent.getDataIndex()
+				);
+		return st.success("");
+	}
+
+	public Map<String, Object> del(String ids) {
+		ids = ids.replaceAll(",", "','");
+		String sql = "DELETE  FROM WF_COMPONENT  WHERE ID in ('" + ids + "')";
+		ur.jdbcTemplate.update(sql);
+		return st.success("");
+	}
+
+	public Map<String, Object> edit(ExtComponent extComponent) {
+		String  sql = "UPDATE WF_COMPONENT SET  pageId=?, xtype=?, width=?, height=?, margin=?, labelWidth=?, actionName=?, maxLength=?, fieldLabel=?, allowBlank=?, regex=?, regexText=?, maxLengthText=?, otherProperty=?, extendComponent=?, ordered=? ,hidden=? ,text=? ,dataIndex=? where id = ?";
+		ur.jdbcTemplate.update(sql,
+				extComponent.getPageId(),
+				extComponent.getXtype(),
+				extComponent.getWidth(),
+				extComponent.getHeight(),
+				extComponent.getMargin(),
+				extComponent.getLabelWidth(),
+				extComponent.getActionName(),
+				extComponent.getMaxLength(),
+				extComponent.getFieldLabel(),
+				extComponent.getAllowBlank(),
+				extComponent.getRegex(),
+				extComponent.getRegexText(),
+				extComponent.getMaxLengthText(),
+				extComponent.getOtherProperty(),
+				extComponent.getExtendComponent(),
+				extComponent.getOrdered(),
+				extComponent.getHidden(),
+				extComponent.getText(),
+				extComponent.getDataIndex(),
+				extComponent.getId());
+		return st.success("");
+	}
+
+	public Page<ExtComponent> queryByPage(Integer start, Integer limit,
+			ExtComponent extComponent,boolean isPageing) {
+		StringBuilder sb = new StringBuilder(
+				" SELECT A.*,concat(b.containerType,'_',b.xtype,'_',b.region) as componentname FROM WF_COMPONENT A LEFT JOIN WF_FUNCTION_PAGE B ON A.PAGEID=B.ID" +
+				" WHERE 1 = 1 " );
+		if(st.stringNotNull(extComponent.getPageId())){
+			sb.append(" AND PageId = '"+extComponent.getPageId()+"'");
+		}
+		sb.append(" order by pageId");
+		if(isPageing==true){//true:分页，false：不分页
+			return ur.queryByCustomPage(sb.toString(),extComponentRowMapper, start, limit);
+		}else{
+			List<ExtComponent> l = ur.queryAllCustom(sb.toString(), extComponentRowMapper);
+			return new Page<ExtComponent>(l, l.size());
+		}
+	}
+
+	public List<JSONObject> queryById(String Id) {
+		String sql = "SELECT * from WF_COMPONENT where Id=? ";
+		return ur.queryAllCustom(sql,Id);
+	}
+	
+	public List<JSONObject> getMenuTree() {
+		String sql="";
+		if (isSuperUser()) {
+			sql = "SELECT f.id ,f.pid ,f.name FROM SYS_FUNCTION f " +
+				  "	UNION " +
+				  "	( " +
+				  "		select p.id,p.functionId as pid ," +
+				  " 		(p.containerType+'_'+p.xtype + CASE WHEN p.region is null THEN '' WHEN P.region is not null THEN '_' + P.region END ) as name" + 
+				  "		from WF_FUNCTION_PAGE p " +
+				  "	)";			   
+			
+		
+		} else {
+			sql = "SELECT f.id ,f.pid ,f.name FROM SYS_FUNCTION f WHERE f.SUPER_FUN = 0 " +
+			  "	UNION " +
+			  "	( " +
+			  "		select p.id,p.functionId as pid ," +
+			  " 		(p.containerType+'_'+p.xtype + CASE WHEN p.region is null THEN '' WHEN P.region is not null THEN '_' + P.region END ) as name" + 
+			  "		from WF_FUNCTION_PAGE p " +
+			  "	)";	
+		}
+		return ur.queryAllCustom(sql);
+	}
+	
+	private boolean isSuperUser() {
+		if (st.stringEquals(SysConstants.SUPER_USERNAME, UserContext
+				.getCurrentUser().getUserName())) {
+			return true;
+		}
+		return false;
+	}
+}

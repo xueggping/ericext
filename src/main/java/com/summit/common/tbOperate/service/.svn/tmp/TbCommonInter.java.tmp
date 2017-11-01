@@ -1,0 +1,55 @@
+/**
+ * 
+ */
+package com.summit.common.tbOperate.service;
+
+import java.util.List;
+
+<<<<<<< .mine
+import org.springframework.stereotype.Component;
+
+=======
+import com.summit.frame.util.Page;
+
+>>>>>>> .r101795
+import net.sf.json.JSONObject;
+
+/**
+ * 表操作公共接口
+ * 
+ * @author Zhang.Zhao
+ *
+ */
+@Component
+public interface TbCommonInter {
+	public List<JSONObject> queryColumnsProperties(String tableName) throws Exception;
+	
+	public List<JSONObject> queryKeys(String tableName) throws Exception;
+	
+	public int addTableData(String tableName,String paramer) throws Exception;
+	
+	public int editTableData(String tableName,String paramer);
+	
+	public int deleteTableData(String tableName,String paramer);
+	/**
+	 * 根据表名查询数据集合
+	 * @param tbaleName 表名
+	 * @param paramer 页面传参
+	 * @return List<Object>
+	 * @throws Exception 
+	 */
+	public List<JSONObject> queryDatasByTbName(String tableName,String paramer) throws Exception;
+	
+	public Page<JSONObject> queryPageDatasByTbName(String tableName, String paramer, int start, int limit) throws Exception;
+	
+	/**
+	 * 根据sql语句查询数据集合
+	 * @param sql sql语句 
+	 * @param paramer 页面传参
+	 * @return List<Object>
+	 */
+	public List<JSONObject> queryDatasBySQL(String sql,String paramer);
+	
+	public Page<JSONObject> queryPageDatasBySQL(String sql, String paramer, int start, int limit);
+	
+}

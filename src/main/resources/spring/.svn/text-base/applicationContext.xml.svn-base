@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:cache="http://www.springframework.org/schema/cache" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop   
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd   
+        http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd   
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd   
+        http://www.springframework.org/schema/mvc   
+        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd   
+        http://www.springframework.org/schema/tx   
+        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+        http://www.springframework.org/schema/task 
+        http://www.springframework.org/schema/task/spring-task-4.3.xsd 
+        http://www.springframework.org/schema/cache 
+        http://www.springframework.org/schema/cache/spring-cache-4.3.xsd">
+	<!-- 扫描以下包 -->
+	<context:component-scan base-package="com.summit" />
+	<!--加载.properties文件-->
+	<context:property-placeholder location="classpath*:database.properties" />
+
+	<!-- master数据库 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close" lazy-init="false" p:driverClassName="${jdbc.driver}"
+		p:url="${jdbc.url}" p:username="${jdbc.user}" p:password="${jdbc.password}"
+		p:initialSize="10" p:maxActive="50" p:maxIdle="5" p:maxWait="1000"
+		p:poolPreparedStatements="false" p:defaultAutoCommit="true"
+		p:removeAbandoned="true" p:removeAbandonedTimeout="60">
+	</bean>
+	<bean id="userDao" class="com.summit.frame.repository.jdbc.UserRepository">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!--	事务配置，需要事务的方法或类加@Transactional	-->
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="txManager" />
+	
+	<!--	Ehcache集成Spring配置	-->
+	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+		<property name="cacheManager" ref="ehcache"></property>
+	</bean>
+	<cache:annotation-driven cache-manager="cacheManager" />
+	<!--	Ehcache配置(已采用分布式配置，支持单机部署)	-->
+	<bean id="ehcache"
+		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+		<property name="configLocation" value="classpath:ehcache.xml"></property>
+	</bean>
+
+
+	<!-- MVC配置 -->
+	<mvc:annotation-driven>
+		<!-- 处理responseBody 里面日期类型 -->
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper">
+					<bean class="com.fasterxml.jackson.databind.ObjectMapper">
+						<property name="dateFormat">
+							<bean class="java.text.SimpleDateFormat">
+								<constructor-arg type="java.lang.String" value="yyyy-MM-dd HH:mm:ss" />
+							</bean>
+						</property>
+					</bean>
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<!-- 增加自定义全局拦截器，拦截所有.do请求判断是否登录，解决Ajax访问的session超时问题 -->
+	<mvc:interceptors>
+		<bean class="com.summit.frame.util.SystemAccessInterceper" />
+	</mvc:interceptors>
+	<!-- 配置freeMarker的模板路径 -->  
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">  
+        <property name="templateLoaderPath" value="/freeMarker/ftl" />  
+        <property name="defaultEncoding" value="UTF-8" />  
+    </bean>  
+    <!-- freemarker视图解析器 -->  
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">  
+        <property name="suffix" value=".ftl" />  
+        <property name="contentType" value="text/html;charset=UTF-8" />  
+        <!-- 此变量值为pageContext.request, 页面使用方法：rc.contextPath -->  
+        <property name="requestContextAttribute" value="rc" /> 
+    </bean>
+	<!-- 返回ModelAndView自动追加页面前缀后缀 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:viewClass="com.summit.frame.common.SummitJstlView" 
+		p:prefix="/jsp/"
+		p:suffix=".jsp">
+	</bean>
+	<!--	user模块也要用所以不能放到security里面	-->
+	<bean id="passwordEncoder"
+		class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
+		
+	<!--	quartz任务调度容器	-->
+<!--	<bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" >-->
+<!--		<property name="jobFactory" ref="jobFactory"/>-->
+<!--	</bean>-->
+	<!--	文件上传转换器	-->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置上传文件的最大限制为100M -->
+		<property name="maxUploadSize">
+			<value>104857600</value>
+		</property>
+		<property name="maxInMemorySize">
+			<value>4096</value>
+		</property>
+	</bean>
+</beans>  

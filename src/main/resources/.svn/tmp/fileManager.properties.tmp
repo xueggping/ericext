@@ -1,0 +1,33 @@
+#录入模板文件路径
+template=file/download/template/
+#上传文件路径
+upload=file/upload/temporary/
+#导出文件路径
+export=file/export/
+#网络共享文件夹目录
+remoteUpload=smb\://Thinkpad\:196582@127.0.0.1/summit/file/upload/temporary/
+#导出项配置路径
+excelImportConfig=excelImportConfig.xml
+#行政区代码表
+<<<<<<< .mine
+HY_ADDVCD_J = \u884C\u653F\u533A\u4EE3\u7801\u8868.xlsx
+=======
+HY_ADDVCD_J = \u884C\u653F\u533A\u4EE3\u7801\u8868.xlsx
+HY_BSCDNM_J = \u6D41\u57DF\u6C34\u7CFB\u4EE3\u7801\u8868.xlsx
+HY_DAEX_I = \u9644\u6ce8\u8868.xlsx
+HY_DATBDL_I = \u6d4b\u7ad9\u8d44\u6599\u767b\u8bb0\u8868.xlsx
+HY_DBFP_J = \u6570\u636e\u5e93\u5b57\u6bb5\u5c5e\u6027\u8868.xlsx
+HY_DBTP_J = \u6570\u636e\u5e93\u8868\u5c5e\u6027\u8868.xlsx
+>>>>>>> .r102360
+#月输沙率表
+<<<<<<< .mine
+HY_MTQS_E = \u6708\u8F93\u6C99\u7387\u8868.xlsx
+#最大导出条数
+maxRecord = 65535
+yearbookTemplate=templates/ftl/
+yearbookExport=D\:/yearbook/
+=======
+HY_MTQS_E = \u6708\u8F93\u6C99\u7387\u8868.xlsx
+#最大导出条数  超过不能导出
+maxRecord = 10485750
+>>>>>>> .r102360

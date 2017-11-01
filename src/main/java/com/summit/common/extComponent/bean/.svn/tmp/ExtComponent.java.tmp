@@ -1,0 +1,276 @@
+package com.summit.common.extComponent.bean;
+
+import java.io.Serializable;
+
+import org.springframework.stereotype.Component;
+/**
+ * 项目名称：watfh   
+ * 类名称：ExtComponent   
+ * 类描述：   
+ * 创建人：xuegp  
+ * 创建时间：2017-7-18 上午09:31:17    
+ * @version
+ */
+@Component
+public class ExtComponent implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 134123412341L;
+	
+	private String id;				
+	private String pageId;			
+	private String xtype;			
+	private String width;			
+	private String height;			
+	private String margin;			
+	private String labelWidth;		
+	private String actionName;		
+	private String maxLength;		
+	private String fieldLabel;		
+	private String allowBlank;		
+	private String regex;			
+	private String regexText;		
+	private String maxLengthText;	
+	private String otherProperty;	
+	private String extendComponent;	
+	private String order;
+	private String hidden;
+	private String text;
+	private String dataIndex;
+	
+	public ExtComponent(String id, String pageId, String xtype,
+			String otherProperty, int order, int hidden, String text,
+			String dataIndex) {
+		super();
+		this.id = id;
+		this.pageId = pageId;
+		this.xtype = xtype;
+		this.otherProperty = otherProperty;
+		this.order = order;
+		this.hidden = hidden;
+		this.text = text;
+		this.dataIndex = dataIndex;
+	}
+	
+	
+	public ExtComponent(String id, String pageId, String xtype, String width,
+			String margin, String labelWidth, String actionName, int maxLength,
+			String fieldLabel, String allowBlank, String otherProperty,
+			int order, int hidden) {
+		super();
+		this.id = id;
+		this.pageId = pageId; 
+		this.xtype = xtype;
+		this.width = width;
+		this.margin = margin;
+		this.labelWidth = labelWidth;
+		this.actionName = actionName;
+		this.maxLength = maxLength;
+		this.fieldLabel = fieldLabel;
+		this.allowBlank = allowBlank;
+		this.otherProperty = otherProperty;
+		this.order = order;
+		this.hidden = hidden;
+	}
+
+
+	public ExtComponent() {
+
+	}
+
+	public ExtComponent(String id, String pageId, String xtype, String width,
+			String height, String margin, String labelWidth, String actionName,
+			String maxLength, String fieldLabel, String allowBlank,
+			String regex, String regexText, String maxLengthText,
+			String otherProperty, String extendComponent, String order,
+			String hidden, String text, String dataIndex) {
+		super();
+		this.id = id;
+		this.pageId = pageId;
+		this.xtype = xtype;
+		this.width = width;
+		this.height = height;
+		this.margin = margin;
+		this.labelWidth = labelWidth;
+		this.actionName = actionName;
+		this.maxLength = maxLength;
+		this.fieldLabel = fieldLabel;
+		this.allowBlank = allowBlank;
+		this.regex = regex;
+		this.regexText = regexText;
+		this.maxLengthText = maxLengthText;
+		this.otherProperty = otherProperty;
+		this.extendComponent = extendComponent;
+		this.order = order;
+		this.hidden = hidden;
+		this.text = text;
+		this.dataIndex = dataIndex;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getPageId() {
+		return pageId;
+	}
+
+	public void setPageId(String pageId) {
+		this.pageId = pageId;
+	}
+
+	public String getXtype() {
+		return xtype;
+	}
+
+	public void setXtype(String xtype) {
+		this.xtype = xtype;
+	}
+
+	public String getWidth() {
+		return width;
+	}
+
+	public void setWidth(String width) {
+		this.width = width;
+	}
+
+	public String getHeight() {
+		return height;
+	}
+
+	public void setHeight(String height) {
+		this.height = height;
+	}
+
+	public String getMargin() {
+		return margin;
+	}
+
+	public void setMargin(String margin) {
+		this.margin = margin;
+	}
+
+	public String getLabelWidth() {
+		return labelWidth;
+	}
+
+	public void setLabelWidth(String labelWidth) {
+		this.labelWidth = labelWidth;
+	}
+
+	public String getActionName() {
+		return actionName;
+	}
+
+	public void setActionName(String actionName) {
+		this.actionName = actionName;
+	}
+
+	public String getMaxLength() {
+		return maxLength;
+	}
+
+	public void setMaxLength(String maxLength) {
+		this.maxLength = maxLength;
+	}
+
+	public String getFieldLabel() {
+		return fieldLabel;
+	}
+
+	public void setFieldLabel(String fieldLabel) {
+		this.fieldLabel = fieldLabel;
+	}
+
+	public String getAllowBlank() {
+		return allowBlank;
+	}
+
+	public void setAllowBlank(String allowBlank) {
+		this.allowBlank = allowBlank;
+	}
+
+	public String getRegex() {
+		return regex;
+	}
+
+	public void setRegex(String regex) {
+		this.regex = regex;
+	}
+
+	public String getRegexText() {
+		return regexText;
+	}
+
+	public void setRegexText(String regexText) {
+		this.regexText = regexText;
+	}
+
+	public String getMaxLengthText() {
+		return maxLengthText;
+	}
+
+	public void setMaxLengthText(String maxLengthText) {
+		this.maxLengthText = maxLengthText;
+	}
+
+	public String getOtherProperty() {
+		return otherProperty;
+	}
+
+	public void setOtherProperty(String otherProperty) {
+		this.otherProperty = otherProperty;
+	}
+
+	public String getExtendComponent() {
+		return extendComponent;
+	}
+
+	public void setExtendComponent(String extendComponent) {
+		this.extendComponent = extendComponent;
+	}
+
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
+	}
+
+	public String getHidden() {
+		return hidden;
+	}
+
+	public void setHidden(String hidden) {
+		this.hidden = hidden;
+	}
+
+	public String getText() {
+		return text;
+	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+
+	public String getDataIndex() {
+		return dataIndex;
+	}
+
+	public void setDataIndex(String dataIndex) {
+		this.dataIndex = dataIndex;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+}

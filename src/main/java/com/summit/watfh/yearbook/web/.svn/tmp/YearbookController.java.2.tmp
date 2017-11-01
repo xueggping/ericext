@@ -1,0 +1,39 @@
+package com.summit.watfh.yearbook.web;
+
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.summit.watfh.yearbook.bean.Yearbook;
+import com.summit.watfh.yearbook.service.YearbookServiceInter;
+
+
+
+@Controller
+@RequestMapping("yearbook")
+public class YearbookController {
+	
+	@Autowired
+	private YearbookServiceInter yearbookServiceImpl;
+	
+	@RequestMapping("welcome")  
+    public ModelAndView getFirstPage(Yearbook yearbook) {  
+        return yearbookServiceImpl.getFirstPage(yearbook);  
+    }
+	
+	public ModelAndView avgFlowReport(String stcds,String beginYear,String endYear){
+		ModelAndView view = new ModelAndView("yearbook/AvgFlowQuantityReport");
+		List<Map<String,Object>> dataList = new ArrayList<Map<String, Object>>();
+		Map<String,Map<String,Object>> dataMap = new HashMap<String, Map<String, Object>>();
+		List<Object> avgFlowList = yearbookServiceImpl.avgFlowReport(stcds,beginYear,endYear);
+		view.addObject("avgFlowList",avgFlowList);
+		return view;
+	}
+}

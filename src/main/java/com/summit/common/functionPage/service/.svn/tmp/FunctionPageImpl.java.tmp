@@ -1,0 +1,99 @@
+package com.summit.common.functionPage.service;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.summit.common.extComponent.bean.ExtComponent;
+import com.summit.common.functionPage.bean.FunctionPage;
+import com.summit.frame.repository.jdbc.UserRepository;
+import com.summit.frame.util.Page;
+import com.summit.frame.util.SummitTools;
+//import com.summit.util.CommonUtil;
+
+@Service
+@Transactional
+public class FunctionPageImpl{
+
+	@Autowired
+	private UserRepository ur;
+	
+	@Autowired
+	private SummitTools st;
+	
+	/*@Autowired
+	private FunctionPageRowMapper functionPageRowMapper;*/
+	
+	public Map<String, Object> add(FunctionPage bean) {
+		String id = "";//CommonUtil.getKey();//主键uuid
+		String sql = "INSERT INTO [WF_FUNCTION_PAGE] " +
+				"([id], [functionId], [title], [height], [width], [layout], [otherProperty], [region], [xtype], [containerType]) " +
+				"VALUES (?, ?, ?, ?, ?, ? ,?, ?, ?, ?) ";
+		ur.jdbcTemplate.update(sql, id,bean.getFunctionId(),bean.getTitle(),bean.getHeight(),bean.getWidth(),bean.getLayout(),bean.getOtherProperty(),bean.getRegion(),bean.getXtype(),bean.getContainerType());
+		return st.success("");
+	}
+
+	public Map<String, Object> del(String id) {
+		id = id.replace(",", "','");
+		String sql = "DELETE FROM WF_FUNCTION_PAGE WHERE id IN ('"+ id + "')";
+		ur.jdbcTemplate.update(sql);
+		sql = "DELETE FROM WF_COMPONENT WHERE pageId IN ('"+ id + "')";
+		ur.jdbcTemplate.update(sql);
+		return st.success("");
+	}
+
+	public Map<String, Object> edit(FunctionPage bean) {
+		String sql = "UPDATE WF_FUNCTION_PAGE SET functionId= ?, title= ?, height= ?, width= ?, layout= ?, otherProperty= ?, region= ?, xtype= ? , containerType = ? where id= ? ";
+		ur.jdbcTemplate.update(sql,bean.getFunctionId(),bean.getTitle(),bean.getHeight(),bean.getWidth(),bean.getLayout(),bean.getOtherProperty(),bean.getRegion(),bean.getXtype(),bean.getContainerType(),bean.getId());
+		return st.success("");
+	}
+
+	public Page<JSONObject> queryByPage(int start, int limit,FunctionPage functionPage,Boolean isPageing) {
+		StringBuilder sb = new StringBuilder("SELECT id, functionId, title, height, width, layout, otherProperty, region, xtype, containerType FROM WF_FUNCTION_PAGE WHERE 1 = 1 " );
+		if (st.stringNotNull(functionPage.getFunctionId())) {
+			sb.append(" AND functionId = '"+functionPage.getFunctionId()+"' ");
+		}
+		if(isPageing==true){//true:分页，false：不分页
+			return ur.queryByCustomPage(sb.toString(), start, limit);
+		}else{
+			List<JSONObject> l = ur.queryAllCustom(sb.toString());
+			return new Page<JSONObject>(l, l.size());
+		}
+	}
+
+	public Map<String, Object> queryById(String id) {
+		StringBuilder sql = new StringBuilder("SELECT id, functionId, title, height, width, layout, otherProperty, region, xtype, containerType FROM WF_FUNCTION_PAGE WHERE id = ? " );
+		List<JSONObject> l = ur.queryAllCustom(sql.toString(), id);
+		if (st.collectionIsNull(l)) {
+			return st.error("");
+		}
+		return st.success("", l.get(0));
+	}
+
+	public List<JSONObject> queryComptById(String functionid) {
+		StringBuilder sql = new StringBuilder("SELECT id, functionId, title, height, width, layout, otherProperty, region, xtype, containerType FROM WF_FUNCTION_PAGE WHERE functionid = '"+functionid+"' " );
+		List<JSONObject> list = ur.queryAllCustom(sql.toString());
+		List<JSONObject> resultinfo = new ArrayList<JSONObject>();
+		for (Object object : list) {
+			FunctionPage obj = (FunctionPage)JSONObject.toBean(JSONObject.fromObject(object),FunctionPage.class);
+			StringBuilder pageIdsql = new StringBuilder("SELECT * FROM WF_COMPONENT WHERE pageId = ? " );
+			List<JSONObject> pageIdlist = ur.queryAllCustom(pageIdsql.toString(), obj.getId());
+			JSONArray jsonArray = JSONArray.fromObject(pageIdlist);
+		    //Java集合
+		    List<ExtComponent> listObj = (List<ExtComponent>) jsonArray.toCollection(jsonArray, ExtComponent.class);
+			obj.setComponent(listObj);
+			JSONObject json= JSONObject.fromObject(obj);
+			resultinfo.add(json);
+		}
+		return resultinfo;
+	}
+
+}

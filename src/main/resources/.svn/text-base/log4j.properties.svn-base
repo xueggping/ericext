@@ -1,0 +1,45 @@
+#    Copyright 2010-2013 the original author or authors.
+#
+#    Licensed under the Apache License, Version 2.0 (the "License");
+#    you may not use this file except in compliance with the License.
+#    You may obtain a copy of the License at
+#
+#       http://www.apache.org/licenses/LICENSE-2.0
+#
+#    Unless required by applicable law or agreed to in writing, software
+#    distributed under the License is distributed on an "AS IS" BASIS,
+#    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+#    See the License for the specific language governing permissions and
+#    limitations under the License.
+       
+# Rules reminder:
+# DEBUG < INFO < WARN < ERROR < FATAL
+
+# Global logging configuration
+log4j.rootLogger=ERROR,logError,logInfo,stdout
+
+# My logging configuration...
+log4j.logger.com.summit=INFO
+
+## Console output...
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%5p %d %C: %m%n
+
+
+## File output...
+log4j.logger.logError= ERROR,logError  
+log4j.appender.logError=org.apache.log4j.DailyRollingFileAppender 
+log4j.appender.logError.Threshold=ERROR
+log4j.appender.logError.file=D\:\\summit\\watf\\watfError.log 
+log4j.appender.logError.DatePattern='.'yyyy-MM-dd  
+log4j.appender.logError.layout=org.apache.log4j.PatternLayout  
+log4j.appender.logError.layout.ConversionPattern= %5p %d %l - %m%n
+## File output...
+log4j.logger.logInfo= INFO,logInfo
+log4j.appender.logInfo=org.apache.log4j.DailyRollingFileAppender
+log4j.appender.logInfo.Threshold=INFO
+log4j.appender.logInfo.file=D\:\\summit\\watf\\watfInfo.log 
+log4j.appender.logInfo.DatePattern='.'yyyy-MM-dd  
+log4j.appender.logInfo.layout=org.apache.log4j.PatternLayout  
+log4j.appender.logInfo.layout.ConversionPattern= %5p %d %l - %m%n

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+             http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+	<security:global-method-security />
+	<security:http security="none" pattern="/jsp/login.jsp" />
+	<security:http security="none" pattern="/yearbook/*.do" />
+	<security:http security="none" pattern="/jsp/yearbook/*.jsp" />
+	<security:http auto-config="true" use-expressions="false">
+			<security:headers>
+		         <security:frame-options disabled="true" />
+		    </security:headers>
+		    <security:csrf disabled="true" />
+		<security:intercept-url pattern="/**/*.do"
+			access="ROLE_DEFAULT" />
+		<security:intercept-url pattern="/**/*.jsp"
+			access="ROLE_DEFAULT" />
+		<security:custom-filter before="FILTER_SECURITY_INTERCEPTOR"
+			ref="customFilterSecurityInterceptor" />
+		<security:form-login login-page="/jsp/login.jsp?error=true"
+			authentication-failure-url="/jsp/login.jsp?error=true"
+			username-parameter='j_username'
+            password-parameter='j_password'
+            login-processing-url="/j_spring_security_check" 
+			authentication-success-handler-ref="authenticationSuccessHandler"
+			 />
+	</security:http>
+
+	<bean id="customFilterSecurityInterceptor"
+		class="com.summit.frame.security.CustomFilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="accessDecisionManager" ref="customAccessDecisionManager" />
+		<property name="securityMetadataSource"
+			ref="customInvocationSecurityMetadataSourceService" />
+	</bean>
+
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider
+			user-service-ref="userDetailsService">
+			<security:password-encoder ref="passwordEncoder" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<bean id="authenticationSuccessHandler"
+		class="com.summit.frame.security.CustomAuthenticationSuccessHandler">
+	</bean>
+
+	<bean id="passwordEncoder"
+		class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
+
+</beans>

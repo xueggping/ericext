@@ -1,0 +1,131 @@
+package com.summit.common.extComponent.service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< .mine
+import org.springframework.stereotype.Service;
+=======
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+>>>>>>> .r101705
+
+import com.summit.common.extComponent.bean.ExtComponent;
+import com.summit.common.extComponent.bean.ExtComponentRowMapper;
+import com.summit.common.extComponent.bean.SysMenuTreeBean;
+import com.summit.common.extComponent.bean.SysMenuTreeBeanRowMapper;
+import com.summit.frame.repository.jdbc.UserRepository;
+import com.summit.frame.util.Page;
+import com.summit.frame.util.SummitTools;
+
+<<<<<<< .mine
+@Service
+=======
+@Service
+@Transactional
+>>>>>>> .r101705
+public class ExtComponentImpl implements ExtComponentInter{
+
+	@Autowired
+	private UserRepository ur;
+	
+	@Autowired
+	private SummitTools st;
+	
+	@Autowired
+	private ExtComponentRowMapper extComponentRowMapper;
+	
+	@Autowired
+	private SysMenuTreeBeanRowMapper smtb;
+	
+	public Map<String, Object> add(ExtComponent extComponent) {
+		String  sql = "INSERT INTO WF_COMPONENT (id, pageId, xtype, width, height, margin, labelWidth, " +
+				" actionName, maxLength, fieldLabel, allowBlank, regex, regexText, maxLengthText, " +
+				" otherProperty, extendComponent, order,hidden,text,dataIndex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)";
+		if(extComponent.getId() == null){
+			extComponent.setId(SummitTools.getKey());
+		}
+		ur.jdbcTemplate.update(sql,
+				extComponent.getId(),
+				extComponent.getPageId(),
+				extComponent.getXtype(),
+				extComponent.getWidth(),
+				extComponent.getHeight(),
+				extComponent.getMargin(),
+				extComponent.getLabelWidth(),
+				extComponent.getActionName(),
+				extComponent.getMaxLength(),
+				extComponent.getFieldLabel(),
+				extComponent.getAllowBlank(),
+				extComponent.getRegex(),
+				extComponent.getRegexText(),
+				extComponent.getMaxLength(),
+				extComponent.getOtherProperty(),
+				extComponent.getExtendComponent(),
+				extComponent.getOrder());
+		return st.success("");
+	}
+
+	public Map<String, Object> del(String id) {
+		id = id.replaceAll(",", "','");
+		String sql = "DELETE  FROM WF_COMPONENT  WHERE ID in ('" + id + "')";
+		ur.jdbcTemplate.update(sql);
+		return st.success("");
+	}
+
+	public Map<String, Object> edit(ExtComponent extComponent) {
+		String  sql = "UPDATE WF_COMPONENT SET  pageId=?, xtype=?, width=?, height=?, margin=?, labelWidth=?, actionName=?, maxLength=?, fieldLabel=?, allowBlank=?, regex=?, regexText=?, maxLengthText=?, otherProperty=?, extendComponent=?, order=? ,hidden=? ,text=? ,dataIndex=? where id = ?";
+		ur.jdbcTemplate.update(sql,
+				extComponent.getPageId(),
+				extComponent.getXtype(),
+				extComponent.getWidth(),
+				extComponent.getHeight(),
+				extComponent.getMargin(),
+				extComponent.getLabelWidth(),
+				extComponent.getActionName(),
+				extComponent.getMaxLength(),
+				extComponent.getFieldLabel(),
+				extComponent.getAllowBlank(),
+				extComponent.getRegex(),
+				extComponent.getRegexText(),
+				extComponent.getMaxLength(),
+				extComponent.getOtherProperty(),
+				extComponent.getExtendComponent(),
+				extComponent.getOrder(),
+				extComponent.getOtherProperty(),
+				extComponent.getExtendComponent(),
+				extComponent.getOrder(),
+				extComponent.getId());
+		return st.success("");
+	}
+
+	public Page<ExtComponent> queryByPage(Integer start, Integer limit,
+			ExtComponent extComponent) {
+		StringBuilder sb = new StringBuilder(
+				" SELECT * FROM WF_COMPONENT " +
+				" WHERE 1 = 1 " );
+		sb.append(" order by pageId");
+		return ur.queryByCustomPage(sb.toString(),extComponentRowMapper, start, limit);
+	}
+
+	public List<ExtComponent> queryByPageId(String pageId,String isPageing) {
+		String sql = "SELECT * from WF_COMPONENT where pageId=? ";
+		return ur.jdbcTemplate.query(sql, extComponentRowMapper,pageId);
+	}
+	
+	
+	public List<SysMenuTreeBean> getMenuTree() {
+		String sql = "select ID as 'id',PID as 'pid',NAME as 'name' from sys_function ";
+		List<SysMenuTreeBean> all = ur.queryAllCustom(sql, smtb);
+		List<SysMenuTreeBean> list = new ArrayList<SysMenuTreeBean>();
+		for (SysMenuTreeBean sysMenuTreeBean : all) {
+			if(sysMenuTreeBean.getpId() == null){
+				sysMenuTreeBean.setOpen(true);
+			}
+			list.add(sysMenuTreeBean);
+		}
+		return list;
+	}
+}

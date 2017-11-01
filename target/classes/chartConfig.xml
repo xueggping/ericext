@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--图表数据配置说明  
+tableName 表名
+name 查询字段 
+-->
+<tables>
+	<table>
+		<tableName>HY_DZ_C</tableName>
+		<columns>
+			<column name="x">DT x</column>
+			<column name="y">AVZ y</column>
+			<column name="dwx">时间</column>
+			<column name="dwy">m</column>
+			<column name="title">逐日平均水位</column>
+		</columns>
+	</table>
+	<table>
+		<tableName>HY_DQ_C</tableName>
+		<columns>
+			<column name="x">DT x</column>
+			<column name="y">AVQ y</column>
+			<column name="dwx">时间</column>
+			<column name="dwy">m³/s</column>
+			<column name="title">逐日平均流量</column>
+		</columns>
+	</table>
+	<table>
+		<tableName>V_HY_DP_C</tableName>
+		<columns>
+			<column name="x">DT x</column>
+			<column name="y">P y</column>
+			<column name="dwx">时间</column>
+			<column name="dwy">mm</column>
+			<column name="title">逐日降雨量</column>
+		</columns>
+	</table>
+	<table>
+		<tableName>HY_DWEAP_C</tableName>
+		<columns>
+			<column name="x">DT x</column>
+			<column name="y">ATMP y</column>
+		</columns>
+	</table>
+	<table>
+		<tableName>HY_DWT_C</tableName>
+		<columns>
+			<column name="x">DT x</column>
+			<column name="y">WTMP y</column>
+		</columns>
+	</table>
+	<table>
+		<tableName>HY_DCS_C</tableName>
+		<columns>
+			<column name="x">DT x</column>
+			<column name="y">AVCS y</column>
+		</columns>
+	</table>
+	<table>
+		<tableName>HY_DQS_C</tableName>
+		<columns>
+			<column name="x">DT x</column>
+			<column name="y">AVQS y</column>
+		</columns>
+	</table>
+	<table>
+		<tableName>HY_DIQ_C</tableName>
+		<columns>
+			<column name="x">DT x</column>
+			<column name="y">AVIQ y</column>
+		</columns>
+	</table>
+	<table>
+		<tableName>HY_XSMSRS_G</tableName>
+		<columns>
+			<column name="x">DI x</column>
+			<column name="y">RVBDEL y</column>
+		</columns>
+	</table>
+	<table>
+		<tableName>HY_FDHEEX_B</tableName>
+		<columns>
+			<column name="x">TM x</column>
+			<column name="y">Q y</column>
+		</columns>
+	</table>
+</tables>

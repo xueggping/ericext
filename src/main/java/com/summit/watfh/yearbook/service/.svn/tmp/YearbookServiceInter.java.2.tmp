@@ -1,0 +1,20 @@
+package com.summit.watfh.yearbook.service;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.summit.watfh.yearbook.bean.Yearbook;
+
+
+@Component
+public interface YearbookServiceInter {
+
+	public ModelAndView getFirstPage(Yearbook yearbook);
+	
+	public ModelAndView  floodReport(Yearbook yearbook); 
+
+	public List<Map<String,Object>> avgFlowReport(String stcds, String beginYear, String endYear, String type) throws Exception;
+}

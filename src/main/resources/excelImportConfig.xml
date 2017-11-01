@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Excel导入数据配置  
+bean  表明
+lineNo 列明第几行
+fromLine 数据起始行数
+limit 导入的最大条数限制
+name 列明
+property 字段名称
+order 导入顺序  从0开始
+order 是否允许控制  false不允许 true 允许
+type 1:String,2:int,3:Float,4:Double
+length 长度
+regex 正则表达式
+-->
+<convertors>
+	<convertor>
+		<bean>HY_ADDVCD_J</bean>
+		<head lineNo="1" />
+		<data fromLine="2" limit="1000">
+			<column name="行政区划码" order="0" property="ADDVCD" allowEmpty="false" type="1" length="6"  regex="^[0-9]*$" />
+			<column name="行政区划名" order="1" property="ADDVNM" allowEmpty="false" type="1" maxLength="24" />
+		 </data>
+	</convertor>
+	<convertor>
+		<bean>HY_BSCDNM_J</bean>
+		<head lineNo="1" />
+		<data fromLine="2" limit="1000">
+			<column name="流域水系码" order="0" property="BSHNCD" allowEmpty="false" type="1" length="3"  regex="^[0-9]*$" />
+			<column name="流域名称" order="1" property="BSNM" allowEmpty="true" type="1" maxLength="20" />
+			<column name="水系名称" order="2" property="HNNM" allowEmpty="true" type="1" maxLength="30" />
+			<column name="备注" order="3" property="NT" allowEmpty="true" type="1" maxLength="255" />
+		 </data>
+	</convertor>
+	<convertor>
+		<bean>HY_DAEX_I</bean>
+		<head lineNo="1" />
+		<data fromLine="2" limit="1000">
+			<column name="站码" order="0" property="STCD" allowEmpty="false" type="1" length="8"  regex="^[a-zA-Z0-9_]+$" />
+			<column name="年" order="1" property="YR" allowEmpty="false" type="3" length="4"  paramer1="0" />
+			<column name="表标识" order="2" property="TBID" allowEmpty="false" type="1" maxLength="12" />
+			<column name="附注" order="3" property="NT" allowEmpty="true" type="1" maxLength="600" />
+		 </data>
+	</convertor>
+	<convertor>
+		<bean>HY_DATBDL_I</bean>
+		<head lineNo="1" />
+		<data fromLine="2" limit="1000">
+			<column name="站码" order="0" property="STCD" allowEmpty="false" type="1" length="8"  regex="^[a-zA-Z0-9_]+$" />
+			<column name="年" order="1" property="YR" allowEmpty="false" type="3" length="4"  paramer1="0" />
+			<column name="表标识" order="2" property="TBID" allowEmpty="false" type="1" maxLength="12" />
+			<column name="入库标识" order="3" property="HLDID" allowEmpty="true" type="1" length="1" />
+			<column name="备注" order="4" property="NT" allowEmpty="true" type="1" maxLength="100" />
+		 </data>
+	</convertor>
+	<convertor>
+		<bean>HY_DBFP_J</bean>
+		<head lineNo="1" />
+		<data fromLine="2" limit="1000">
+			<column name="表标识" order="0" property="TBID" allowEmpty="false" type="1" maxLength="12" />
+			<column name="字段表示" order="1" property="FLID" allowEmpty="false" type="1" maxLength="10" />
+			<column name="字段中文名" order="2" property="FLDCNNM" allowEmpty="true" type="1" maxLength="30" />
+			<column name="字段英文名" order="3" property="FLDENNM" allowEmpty="true" type="1" maxLength="255" />
+			<column name="字段类型及长度" order="4" property="FLDTPL" allowEmpty="true" type="1" maxLength="10" />
+			<column name="空值属性" order="5" property="NLATT" allowEmpty="true" type="1" maxLength="2" />
+			<column name="计量单位" order="6" property="UNNM" allowEmpty="true" type="1" maxLength="30" />
+			<column name="取值范围" order="7" property="VLRG" allowEmpty="true" type="1" maxLength="255" />
+			<column name="主键属性" order="8" property="PKAT" allowEmpty="true" type="1" maxLength="2" />
+		 </data>
+	</convertor>
+	<convertor>
+		<bean>HY_DBTP_J</bean>
+		<head lineNo="1" />
+		<data fromLine="2" limit="1000">
+			<column name="表标识" order="0" property="TBID" allowEmpty="false" type="1" maxLength="12" />
+			<column name="表号" order="1" property="TBNO" allowEmpty="false" type="1" maxLength="3" />
+			<column name="表中文名" order="2" property="TBCNNM" allowEmpty="true" type="1" maxLength="30" />
+			<column name="表英文名" order="3" property="TBENNM" allowEmpty="true" type="1" maxLength="50" />
+		 </data>
+	</convertor>
+	
+	
+	
+	
+	
+	
+	
+	
+	<convertor>
+		<bean>HY_MTQS_E</bean>
+		<head lineNo="1" />
+		<data fromLine="2" limit="1000">
+			<column name="站码" order="0" property="STCD" allowEmpty="false" type="1" length="8"  regex="^[a-zA-Z0-9_]+$"  />
+			<column name="泥沙类型" order="1" property="SDTP" allowEmpty="false" type="1" maxLength="10" />
+			<column name="年" order="2"	 property="YR" allowEmpty="false" type="3" length="4"  paramer1="0" />
+			<column name="月" order="3" property="MTH" 	allowEmpty="false" type="3" maxLength="2"  paramer1="0" />
+			<column name="平均输沙率" order="4" property="AVQS" 	allowEmpty="true" type="3" maxLength="12"  paramer1="6" />
+			<column name="平均输沙率注解码" order="5" property="AVQSRCD" 	allowEmpty="true" type="1" maxLength="4" />
+			<column name="最大日平均输沙率" order="6" 	property="MXDYQS" allowEmpty="true" type="3" maxLength="12"  paramer1="6"  />
+			<column name="最大日平均输沙率注解码" order="7"    property="MXDYQSRCD" allowEmpty="true" type="1" maxLength="4"  />
+			<column name="最大日平均输沙率出现日期" order="8" 	property="MXDYQSODT"  allowEmpty="true" type="1"/>
+		 </data>
+	</convertor>
+	<convertor>
+		<bean>WF_FUNCTION_PAGE</bean>
+		<head lineNo="1" />
+		<data fromLine="2" limit="1000">
+			<column name="主键ID" order="0" property="id" allowEmpty="false" type="1" maxLength="40"  />
+			<column name="功能ID" order="1" property="functionId" allowEmpty="false" type="1" maxLength="40" />
+			<column name="标题" order="2"	 property="title" allowEmpty="true" type="1" maxLength="100" />
+			<column name="高度" order="3" property="height" 	allowEmpty="true" type="1" maxLength="10" />
+			<column name="宽度" order="4" property="width" 	allowEmpty="true" type="1" maxLength="10" />
+			<column name="布局" order="5" property="layout" 	allowEmpty="true" type="1" maxLength="20" />
+			<column name="其它属性" order="6" 	property="otherProperty" allowEmpty="true" type="1"  />
+			<column name="区域" order="7"    property="region" allowEmpty="true" type="1" maxLength="20" />
+			<column name="组件类型" order="8" 	property="xtype"  allowEmpty="false" type="1" maxLength="20" />
+			<column name="面板类型" order="9" 	property="containerType" allowEmpty="false" type="1" maxLength="40" />
+		 </data>
+	</convertor>
+
+	<convertor>
+		<bean>RS_Info_B</bean>
+		<head lineNo="1" />
+		<data fromLine="2" limit="1000">
+			<column name="水库代码" 	order="0" 	property="RSCD" 		allowEmpty="false" type="1" maxLength="12" regex="^[0-9]*$" />
+			<column name="水库名称" 	order="1" 	property="RSNM" 		allowEmpty="true" type="1"  maxLength="50" />
+			<column name="所属行政区划" 		order="2"	property="ADCD"		allowEmpty="true" type="1" maxLength="15" regex="^[0-9]*$"  />
+			<column name="水库所在位置" 		order="3" 	property="dmstatpl" 	allowEmpty="true"  type="1" maxLength="40" />
+			<column name="所在河流" 		order="4" 	property="EnRvnm" 	allowEmpty="true"  type="1" maxLength="40" />
+			<column name="管理单位" 		order="5" 	property="SupeAdun" 	allowEmpty="true" type="1" maxLength="40" />
+			<column name="建设年份" 		order="6" 	property="Engsdate"  allowEmpty="true" type="3"  maxLength="4"  paramer1="0" />
+			<column name="集水面积" 	order="7" 	property="Drbsar" 	allowEmpty="true" type="3" maxLength="8" paramer1="3" />
+			<column name="总库容" 			order="8" 	property="Xhst" 		allowEmpty="true" type="3" maxLength="8" paramer1="3"/>
+			<column name="设计洪水位" order="9" 	property="Dsfllv" 	allowEmpty="true" type="3" maxLength="8" paramer1="3"/>
+			<column name="正常蓄水位" 	order="10" 	property="Nrwtlv" 		allowEmpty="true" type="3" maxLength="8"   paramer1="3" />
+			<column name="汛限水位" 	order="11" 	property="Flz" 		allowEmpty="true" type="3" maxLength="8" paramer1="3"/>
+			<column name="汛限库容" 		order="12"	property="Flzst"		allowEmpty="true" type="3" maxLength="8" paramer1="3"/>
+			<column name="防洪高水位" 		order="13" 	property="FLDZ" 	allowEmpty="true"  type="3" maxLength="8" paramer1="3" />
+			<column name="防洪库容" 		order="14" 	property="FLDCP" 	allowEmpty="true"  type="3" maxLength="8" paramer1="3"/>
+			<column name="调洪库容" 		order="15" 	property="THCP" 	allowEmpty="true" type="3" maxLength="8" paramer1="3"/>
+			<column name="坝体类型" 		order="16" 	property="Dmtp" 		allowEmpty="true" type="1" maxLength="30" />
+			<column name="坝长" 	order="17" 	property="Dmtpln" 	allowEmpty="true" type="3" maxLength="8" paramer1="2"/>
+			<column name="坝高" 			order="18" 	property="mxdmhg" 		allowEmpty="true" type="3" maxLength="8" paramer1="3" />
+			<column name="坝顶高程" order="19" 	property="YhdyDmtpwd" 	allowEmpty="true" type="3" maxLength="8" paramer1="3" />
+			<column name="设计洪水频率" 	order="20" 	property="FlDS" 		allowEmpty="true" type="2" maxLength="4"   paramer1="0" />
+			<column name="溢洪道型式" 	order="21" 	property="dscndtpy" 		allowEmpty="true" type="1" maxLength="40" />
+			<column name="溢洪道底高程" 		order="22"	property="inbtcgel"		allowEmpty="true" type="3" maxLength="8" paramer1="3"/>
+			<column name="溢洪道最大泄量" 		order="23" 	property="mxdsy" 	allowEmpty="true"  type="3" maxLength="8" paramer1="3" />
+			<column name="校核洪水频率" 		order="24" 	property="FlCh" 	allowEmpty="true"  type="2" maxLength="4" paramer1="0"/>
+			<column name="现状洪水频率" 		order="25" 	property="FlAc" 	allowEmpty="true" type="2" maxLength="4"  paramer1="0"/>
+			<column name="设计泄流能力" 		order="26" 	property="XlllDsfllv" 		allowEmpty="true" type="3" maxLength="8" paramer1="3"/>
+			<column name="校核泄流能力" 	order="27" 	property="xlllChfllv" 	allowEmpty="true" type="3" maxLength="8" paramer1="3" />
+			<column name="安全泄流能力" 			order="28" 	property="Dwcnstds" 		allowEmpty="true" type="3" maxLength="8" paramer1="3"/>
+			<column name="调度主管部门" order="29" 	property="Power" 	allowEmpty="true" type="1" maxLength="50" />
+			<column name="近期安全鉴定日期" 	order="30" 	property="Safetm" 		allowEmpty="true" type="1" maxLength="25"    />
+			<column name="安全类别" 	order="31" 	property="Safegrade" 		allowEmpty="true" type="1" maxLength="10" />
+			<column name="水库病险情况" 		order="32"	property="Safefiles"		allowEmpty="true" type="1" maxLength="200" />
+			<column name="影响社会经济指标" 		order="33" 	property="Dwysqn" 	allowEmpty="true"  type="1" maxLength="200" />
+			<column name="预警设施手段" 		order="34" 	property="Xyyjsd" 	allowEmpty="true"  type="1" maxLength="200" />
+			<column name="水准基面" 		order="35" 	property="rm" 	allowEmpty="true" type="1" maxLength="200" />
+			<column name="水准基面位置" 		order="36" 	property="waterLevel" 		allowEmpty="true" type="1" maxLength="40" />
+			<column name="图片" 	order="37" 	property="waterLevelPlace" 	allowEmpty="true" type="1" maxLength="40" />
+			<column name="概况" 			order="38" 	property="picture" 		allowEmpty="true" type="1" maxLength="100" />
+			<column name="备注" order="39" 	property="summary" 	allowEmpty="true" type="1" maxLength="100" />
+		 </data>
+	</convertor>
+</convertors>
